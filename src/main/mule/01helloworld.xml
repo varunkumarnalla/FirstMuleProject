@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7b6fd2a5-fa56-4fa8-8265-7cf3b925689b" basePath="hello" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="01helloworldFlow" doc:id="d17ca866-fc1d-4952-b6bc-ccfe6f264c2a" >
+		<http:listener doc:name="Listener" doc:id="5a7f3968-c1c7-40f5-85e4-cb8e780c25dc" config-ref="HTTP_Listener_config" path="path/{city}/{state}"/>
+		<set-payload value="#['i am ' ++ attributes.queryParams.uname1 as String ++ &#10;' from city: ' ++ attributes.uriParams.city as String ++ &#10;' state: ' ++ attributes.uriParams.state as String ++ &#10;' and country: ' ++ &#10;attributes.queryParams.country as String]" doc:name="Set Payload" doc:id="0113ad28-365b-47a7-9ab9-7379d26423f0" />
+		<logger level="INFO" doc:name="Logger" doc:id="469a1c93-d3ee-444a-95b5-07ccc64ba397" message="#[payload]"/>
+	</flow>
+</mule>
